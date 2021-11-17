@@ -5,7 +5,6 @@ import { QuestCategoryList } from '../models/QuestCategory'
 import { QuestSubcategoryList } from '../models/QuestSubcategory'
 import { CheckingTimeList } from '../models/CheckingTime'
 import Assistant from '../plugins/assistant'
-// import Vue from 'vue' ToDo : import vue
 import axios from 'axios'
 import API_ADDRESS from '../api/Addresses'
 
@@ -61,6 +60,12 @@ class Exam extends Model {
       { key: 'finished_at' },
       { key: 'is_registered' },
       { key: 'exam_id' },
+      { key: 'type' },
+      {
+        key: 'type_id',
+        default: null
+      }
+      { key: 'exam_id' },
       {
         key: 'holding_config',
         default: {
@@ -107,6 +112,47 @@ class Exam extends Model {
 
     ])
 
+    const that = this
+
+    this.apiResource = {
+      fields: [
+        { key: 'id' },
+        { key: 'title' },
+        { key: 'photo' },
+        { key: 'price' },
+        { key: 'order' },
+        { key: 'delay_time' },
+        { key: 'exam_actions' },
+        { key: 'type' },
+        { key: 'holding_status' },
+        { key: 'user_exam_id' },
+        { key: 'user_exam_status' },
+        { key: 'questions_file_url' },
+        { key: 'total_question_number' },
+        { key: 'is_open' },
+        { key: 'is_register_open' },
+        { key: 'opening_policy' },
+        { key: 'questions' },
+        { key: 'sub_categories' },
+        { key: 'exam_id' },
+        { key: 'enable' },
+        { key: 'is_free' },
+        { key: 'confirm' },
+        { key: 'generate_questions_automatically' },
+        { key: 'type_id' },
+        { key: 'start_at' },
+        { key: 'finish_at' },
+        {
+          key: 'categories',
+          value: function () {
+            return that.categories.list
+          }
+        }
+      ]
+    }
+    if (this.type && this.type.id) {
+      this.type_id = this.type.id
+    }
     const that = this
 
     this.apiResource = {
@@ -203,7 +249,7 @@ class Exam extends Model {
       return
     }
     this.questions.list.map((question) => {
-      // const userQuestionData = userData.find((questionData)=> questionData.questionId === )
+      // let userQuestionData = userData.find((questionData)=> questionData.questionId === )
       const userQuestionData = userData[question.id]
 
       if (userQuestionData) {
@@ -247,8 +293,8 @@ class Exam extends Model {
     question.checking_times.list.forEach((checkingTime) => {
       const oldCheckingTimeIndex = checkingTimes.findIndex((item) => {
         return item.start === checkingTime.start &&
-          item.end === null &&
-          checkingTime.end !== null
+              item.end === null &&
+              checkingTime.end !== null
       })
       if (oldCheckingTimeIndex !== -1) {
         checkingTimes.splice(oldCheckingTimeIndex, 1)
@@ -284,19 +330,17 @@ class Exam extends Model {
     userQuestionData.bookmarked = question.bookmarked
     userQuestionData.state = question.state
 
-    // Vue.set(userQuestionData, 'answered_at', (answeredChoice) ? answeredChoice.answered_at : null) ToDo : import vue
-    // Vue.set(userQuestionData, 'bookmarked', question.bookmarked)
-    // Vue.set(userQuestionData, 'state', question.state)
+    window.app.set(userQuestionData, 'answered_at', (answeredChoice) ? answeredChoice.answered_at : null)
+    window.app.set(userQuestionData, 'bookmarked', question.bookmarked)
+    window.app.set(userQuestionData, 'state', question.state)
   }
 
   addUserQuestionData (question, userQuizData) {
     const answeredChoice = question.getAnsweredChoice()
-    const answeredChoiceId = null
-    const answered_at = null
+    let answeredChoiceId = null
+    let answered_at = null
     if (answeredChoice) {
-      // eslint-disable-next-line
       answeredChoiceId = answeredChoice.id
-      // eslint-disable-next-line
       answered_at = answeredChoice.answered_at
     }
     const checkingTimes = []
@@ -324,11 +368,7 @@ class Exam extends Model {
         })
       }
     })
-    return axios.post(API_ADDRESS.exam.sendAnswers, {
-      exam_user_id: this.user_exam_id,
-      finish: true,
-      questions: answers
-    })
+    return axios.post(API_ADDRESS.exam.sendAnswers, { exam_user_id: this.user_exam_id, finish: true, questions: answers })
   }
 
   mergeDbAnswerToLocalstorage (dbAnswers) {
@@ -364,16 +404,8 @@ class Exam extends Model {
               console.log(answers)
               resolve()
             })
-            .catch(({
-              jqXHR,
-              textStatus,
-              errorThrown
-            }) => {
-              reject({
-                jqXHR,
-                textStatus,
-                errorThrown
-              })
+            .catch(({ jqXHR, textStatus, errorThrown }) => {
+              reject({ jqXHR, textStatus, errorThrown })
             })
         })
         .catch(() => {

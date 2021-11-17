@@ -14,32 +14,8 @@ const routes = [
         }
       },
       {
-        path: '/sub_category/edit',
-        name: 'subCategory.edit',
-        component: () => import('pages/Admin/subCategory/LessonsList'),
-        meta: { middlewares: [auth] }
-      },
-      {
-        path: '/coefficient/edit/:exam_id',
-        name: 'coefficient.edit',
-        component: () => import('src/pages/Admin/subGroup/editCoefficients.vue'),
-        meta: {
-          middlewares: [auth]
-        }
-      },
-      {
-        path: '/onlineQuiz/exams/lessons/:quizId/:quizTitle',
-        name: 'onlineQuiz.exams.lessons',
-        component: () => import('src/pages/Admin/exam/lessons.vue'),
-        meta: {
-          middlewares: [auth]
-        }
-      },
-      // user list
-      // admin list
-      {
-        path: 'exam-list',
-        name: 'exam-list',
+        path: '/exam',
+        name: 'exam',
         component: () => import('pages/Admin/exam/index'),
         meta: {
           middlewares: [auth]
@@ -54,22 +30,65 @@ const routes = [
             }
           },
           {
-            path: 'edit-exam',
-            name: 'edit-exam',
+            path: 'create',
+            name: 'create',
             component: () => import('pages/Admin/exam/edit/editExam'),
             meta: {
               middlewares: [auth]
             }
           },
           {
-            path: ':examId/edit-exam-report',
+            path: ':examId/edit',
+            name: 'edit',
+            component: () => import('pages/Admin/exam/edit/editExam'),
+            meta: {
+              middlewares: [auth]
+            }
+          },
+          {
+            path: ':examId',
+            name: 'show',
+            component: () => import('pages/Admin/exam/edit/editExam'),
+            meta: {
+              middlewares: [auth]
+            }
+          },
+          {
+            path: 'edit-exam-report',
             name: 'edit-exam-report',
             component: () => import('pages/Admin/exam/edit/editExamReport'),
             meta: {
               middlewares: [auth]
             }
+          },
+          {
+            path: '/question/mbti/create',
+            name: 'question.mbti.create',
+            component: () => (import('pages/Admin/Question/newMBTIpage')),
+            meta: {
+              middlewares: [auth]
+            }
+          },
+          {
+            path: '/question/create',
+            name: 'question.create',
+            component: () => (import('pages/Admin/Question/CreateNewQuestion')),
+            meta: {
+              middlewares: [auth]
+            }
           }
         ]
+      },
+      {
+        path: '/sub_category/edit',
+        name: 'subCategory.edit',
+        component: () => import('pages/Admin/subCategory/LessonsList'),
+        meta: { middlewares: [auth] }
+      },
+      {
+        path: 'category',
+        name: 'categoryList',
+        component: () => import('pages/Admin/category/list')
       }
     ]
   },
@@ -77,6 +96,22 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('pages/Auth/Login.vue')
+  },
+  {
+    path: '/editCoefficients',
+    name: 'coefficient.edit',
+    component: () => import('src/pages/Admin/subGroup/editCoefficients.vue'),
+    meta: {
+      middlewares: [auth]
+    }
+  },
+  {
+    path: '/lessonsList',
+    name: 'onlineQuiz.exams.lessons',
+    component: () => import('src/pages/Admin/exam/lessons.vue'),
+    meta: {
+      middlewares: [auth]
+    }
   },
   {
     path: '/login',
@@ -87,6 +122,14 @@ const routes = [
     path: '/test',
     name: 'test',
     component: () => import('pages/Auth/test.vue'),
+    meta: {
+      middlewares: [auth]
+    }
+  },
+  {
+    path: '/user-info',
+    name: 'user-info',
+    component: () => import('pages/User/UserInfoForm'),
     meta: {
       middlewares: [auth]
     }
