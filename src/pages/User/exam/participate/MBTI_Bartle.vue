@@ -1,223 +1,151 @@
 <template>
   <div class="participate-mbti-bartle">
-    <div class="text-center">
-      شخصیت شناسی
+    <div>
+      <div  class="row">
+        <a href="https://alaatv.com">
+          <q-img
+            src="https://nodes.alaatv.com/upload/mbti-bartle-alaa-logo.png"
+            width="27px"
+            height="40ox"
+          />
+        </a>
+        <a href="https://alaatv.com">
+          <q-img
+            src="https://nodes.alaatv.com/upload/mbti-bartle-alaa-text.png"
+            width="134px"
+            height="40px"
+          />
+        </a>
+      </div>
+      <div class="row">
+        <div
+          v-if="quiz"
+          v-text="quiz.title"
+        />
+        <div v-text="counter.string" />
+      </div>
     </div>
-<!--    <v-container-->
-<!--      fluid-->
-<!--      class="header-container"-->
-<!--    >-->
-<!--      <v-row>-->
-<!--        <v-col class="d-flex flex-row justify-space-between">-->
-<!--          <a href="https://alaatv.com">-->
-<!--            <v-img-->
-<!--              src="https://nodes.alaatv.com/upload/mbti-bartle-alaa-logo.png"-->
-<!--              width="27"-->
-<!--              height="40"-->
-<!--              :style="{ 'margin-top': '15px' }"-->
-<!--            />-->
-<!--          </a>-->
-<!--          <a href="https://alaatv.com">-->
-<!--            <v-img-->
-<!--              src="https://nodes.alaatv.com/upload/mbti-bartle-alaa-text.png"-->
-<!--              width="134"-->
-<!--              height="40"-->
-<!--              :style="{ 'margin-top': '15px' }"-->
-<!--            />-->
-<!--          </a>-->
-<!--          <div :style="{ width: '27px' }" />-->
-<!--        </v-col>-->
-<!--      </v-row>-->
-<!--      <v-row>-->
-<!--        <v-col class="d-flex flex-row justify-space-between">-->
-<!--          <div-->
-<!--            v-if="quiz"-->
-<!--            v-text="quiz.title"-->
-<!--          />-->
-<!--          <div v-text="counter.string" />-->
-<!--        </v-col>-->
-<!--      </v-row>-->
-<!--    </v-container>-->
-<!--    <v-progress-linear-->
-<!--      :value="counter.value"-->
-<!--      class="mt-5 progress-bar"-->
-<!--      height="14"-->
-<!--      color="#ffc107"-->
-<!--    />-->
-<!--    <v-container-->
-<!--      fluid-->
-<!--      class="question-box-parent"-->
-<!--    >-->
-<!--      <v-row>-->
-<!--        <v-col class="d-flex justify-center">-->
-<!--          <div class="question-box">-->
-<!--            <div class="arrow-box prev">-->
-<!--              <v-btn-->
-<!--                height="100"-->
-<!--                width="50"-->
-<!--                color="#ffe082"-->
-<!--                elevation="0"-->
-<!--                :disabled="$route.params.questNumber.toString() === '1'"-->
-<!--                @click="goToPrevQuestion('onlineQuiz.mbtiBartle')"-->
-<!--              >-->
-<!--                <i class="fi-br-angle-right" />-->
-<!--              </v-btn>-->
-<!--            </div>-->
-<!--            &lt;!&ndash;            <div&ndash;&gt;-->
-<!--            &lt;!&ndash;              v-if="$route.params.questNumber === '90' && isCurrentQuestionAnswered"&ndash;&gt;-->
-<!--            &lt;!&ndash;              class="finished"&ndash;&gt;-->
-<!--            &lt;!&ndash;            />&ndash;&gt;-->
-<!--            <div class="question">-->
-<!--              <p class="question-number">-->
-<!--                سوال-->
-<!--                {{ $route.params.questNumber }}-->
-<!--              </p>-->
-<!--              <p-->
-<!--                class="statement"-->
-<!--                v-html="currentQuestion.statement"-->
-<!--              />-->
-<!--              <div-->
-<!--                class="choices"-->
-<!--                :class="{-->
-<!--                  agree: stringMeanThumbUpOrDown(currentQuestion.choices.list[0].title) === 'ThumbUp',-->
-<!--                  disagree: stringMeanThumbUpOrDown(currentQuestion.choices.list[0].title) === 'ThumbDown'-->
-<!--                }"-->
-<!--              >-->
-<!--                <div-->
-<!--                  v-for="(choice, index) in currentQuestion.choices.list"-->
-<!--                  :key="index+choiceKey"-->
-<!--                  class="choice"-->
-<!--                  :class="{-->
-<!--                    agree: stringMeanThumbUpOrDown(choice.title) === 'ThumbUp',-->
-<!--                    disagree: stringMeanThumbUpOrDown(choice.title) === 'ThumbDown',-->
-<!--                    active: choice.active-->
-<!--                  }"-->
-<!--                >-->
-<!--                  <div-->
-<!--                    v-if="stringMeanThumbUpOrDown(choice.title) === 'ThumbUp' || stringMeanThumbUpOrDown(choice.title) === 'ThumbDown'"-->
-<!--                    class="choice-circle"-->
-<!--                    @click="choiceClick(choice.id)"-->
-<!--                  >-->
-<!--                    <div class="choice-inner-circle">-->
-<!--                      <i-->
-<!--                        v-if="stringMeanThumbUpOrDown(choice.title) === 'ThumbUp'"-->
-<!--                        class="fi-rr-thumbs-up"-->
-<!--                      />-->
-<!--                      <i-->
-<!--                        v-else-->
-<!--                        class="fi-rr-thumbs-down"-->
-<!--                      />-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                  <p-->
-<!--                    v-if="stringMeanThumbUpOrDown(choice.title) === 'ThumbUp' || stringMeanThumbUpOrDown(choice.title) === 'ThumbDown'"-->
-<!--                    v-html="choice.title"-->
-<!--                  />-->
-<!--                  <div-->
-<!--                    v-else-->
-<!--                    class="choice-rect"-->
-<!--                    @click="choiceClick(choice.id)"-->
-<!--                  >-->
-<!--                    <div-->
-<!--                      class="choice-inner-rect"-->
-<!--                      v-html="choice.title"-->
-<!--                    />-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--                <v-overlay :value="loading">-->
-<!--                  <v-progress-circular-->
-<!--                    :size="50"-->
-<!--                    color="amber"-->
-<!--                    indeterminate-->
-<!--                  />-->
-<!--                </v-overlay>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="next arrow-box">-->
-<!--              <v-btn-->
-<!--                height="100"-->
-<!--                width="50"-->
-<!--                color="#ffe082"-->
-<!--                elevation="0"-->
-<!--                :disabled="!isCurrentQuestionAnswered || getQuestionNumberFromId(currentQuestion.id) === getCurrentExamQuestionsInArray().length"-->
-<!--                @click="goToNextQuestion('onlineQuiz.mbtiBartle')"-->
-<!--              >-->
-<!--                <i class="fi-br-angle-left" />-->
-<!--              </v-btn>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </v-col>-->
-<!--      </v-row>-->
-<!--    </v-container>-->
-<!--    <v-dialog-->
-<!--      v-model="tryAgainDialog"-->
-<!--      persistent-->
-<!--      max-width="290"-->
-<!--    >-->
-<!--      <v-card>-->
-<!--        <v-card-title class="text-h5">-->
-<!--          توجه!-->
-<!--        </v-card-title>-->
-<!--        <v-card-text>مشکلی در ایجاد کارنامه رخ داده است. لطفا مجددا تلاش کنید.</v-card-text>-->
-<!--        <v-card-actions>-->
-<!--          <v-spacer />-->
-<!--          <v-btn-->
-<!--            color="green darken-1"-->
-<!--            text-->
-<!--            @click="sendAnswersAndFinishExam"-->
-<!--          >-->
-<!--            تلاش مجدد-->
-<!--          </v-btn>-->
-<!--        </v-card-actions>-->
-<!--      </v-card>-->
-<!--    </v-dialog>-->
+    <q-linear-progress
+      rounded size="20px"
+      :value="counter.value"
+      color="warning"
+      class="q-mt-sm"
+    />
+    <div
+      class="question-box-parent"
+    >
+      <div class="row">
+        <div class="question-box">
+          <div class="arrow-box prev">
+            <q-btn
+              icon="fi-br-angle-right"
+              color="red"
+              :disabled="$route.params.questNumber.toString() === '1'"
+              @click="goToPrevQuestion('onlineQuiz.mbtiBartle')"
+            >
+              >
+            </q-btn>
+          </div>
+          <div class="question">
+            <p class="question-number">
+              سوال
+              {{ $route.params.questNumber }}
+            </p>
+            <p
+              v-if="currentQuestion"
+              class="statement"
+              v-html="currentQuestion.statement"
+            />
+            <div
+              v-if="currentQuestion"
+              class="choices"
+              :class="{
+                  agree: stringMeanThumbUpOrDown(currentQuestion.choices.list[0].title) === 'ThumbUp',
+                  disagree: stringMeanThumbUpOrDown(currentQuestion.choices.list[0].title) === 'ThumbDown'
+                }"
+            >
+              <div
+                v-for="(choice, index) in currentQuestion.choices.list"
+                :key="index+choiceKey"
+                class="choice"
+                :class="{
+                    agree: stringMeanThumbUpOrDown(choice.title) === 'ThumbUp',
+                    disagree: stringMeanThumbUpOrDown(choice.title) === 'ThumbDown',
+                    active: choice.active
+                  }"
+              >
+                <div
+                  v-if="stringMeanThumbUpOrDown(choice.title) === 'ThumbUp' || stringMeanThumbUpOrDown(choice.title) === 'ThumbDown'"
+                  class="choice-circle"
+                  @click="choiceClick(choice.id)"
+                >
+                  <div class="choice-inner-circle">
+                    <i
+                      v-if="stringMeanThumbUpOrDown(choice.title) === 'ThumbUp'"
+                      class="fi-rr-thumbs-up"
+                    />
+                    <i
+                      v-else
+                      class="fi-rr-thumbs-down"
+                    />
+                  </div>
+                </div>
+                <p
+                  v-if="stringMeanThumbUpOrDown(choice.title) === 'ThumbUp' || stringMeanThumbUpOrDown(choice.title) === 'ThumbDown'"
+                  v-html="choice.title"
+                />
+                <div
+                  v-else
+                  class="choice-rect"
+                  @click="choiceClick(choice.id)"
+                >
+                  <div
+                    class="choice-inner-rect"
+                    v-html="choice.title"
+                  />
+                </div>
+              </div>
+              <v-overlay :value="loading">
+                <v-progress-circular
+                  :size="50"
+                  color="amber"
+                  indeterminate
+                />
+              </v-overlay>
+            </div>
+          </div>
+          <div class="next arrow-box">
+            <q-btn
+              color="red"
+              :disabled="!isCurrentQuestionAnswered || getQuestionNumberFromId(currentQuestion.id) === getCurrentExamQuestionsInArray().length"
+              @click="goToNextQuestion('onlineQuiz.mbtiBartle')"
+            >
+             ghg
+            </q-btn>
+          </div>
+        </div>
+      </div>
+    </div>
+    <q-dialog>
+
+    </q-dialog>
   </div>
 </template>
 
 <script>
-// import Vue from 'vue'
-// import {mixinDrawer} from "@/mixin/Mixins";
-// import {mixinQuiz, mixinUserActionOnQuestion} from '@/mixin/Mixins'
-// import mbtiData from '@/assets/js/MBTI_Bartle_Data'
-//
-// import Assistant from "@/plugins/assistant";
+
+import { mixinDrawer, mixinQuiz, mixinUserActionOnQuestion } from 'src/mixin/Mixins'
+// import mbtiData from 'src/assets/js/MBTI_Bartle_Data'
+//  import Assistant from '/plugins/assistant'
 
 export default {
   name: 'MBTIBartle',
-  // mixins: [mixinDrawer, mixinQuiz, mixinUserActionOnQuestion],
+  mixins: [mixinDrawer, mixinQuiz, mixinUserActionOnQuestion],
   data () {
     return {
       loading: false,
       choiceKey: Date.now(),
       tryAgainDialog: false,
-      // should be commented later ToDo
-      // currentQuestion: new Question({
-      //   id: 1,
-      //   statement: '<p>«از دیروز بیاموز، برای امروز زندگی کن، به فردا امیدوار باش. مسئله مهم این است که دست از سؤال پرسیدن بر ندارید»</p>',
-      //   choices: [
-      //     // {
-      //     //   id: 1,
-      //     //   active: true,
-      //     //   title: 'موافقم',
-      //     //   value: 'I',
-      //     // },
-      //     // {
-      //     //   id: 2,
-      //     //   title: 'مخالفم',
-      //     //   value: 'E'
-      //     // }
-      //     {
-      //       id: 1,
-      //       title: 'موافقم',
-      //       value: 'I',
-      //     },
-      //     {
-      //       id: 2,
-      //       title: 'مخالفم',
-      //       value: 'E'
-      //     }
-      //   ]
-      // }),
       finished: false
     }
   },
@@ -230,23 +158,27 @@ export default {
     },
     isCurrentQuestionAnswered () {
       let isAnswered = false
-      this.currentQuestion.choices.list.forEach(choice => {
-        if (choice.active) {
-          isAnswered = true
-        }
-      })
+      if (this.currentQuestion && this.currentQuestion.choices) {
+        this.currentQuestion.choices.list.forEach(choice => {
+          if (choice.active) {
+            isAnswered = true
+          }
+        })
+      }
       return isAnswered
     }
+  },
+  created () {
+    this.drawer = false
+    this.appBar = false
+    // this.$store.commit('AppLayout/updateAppBarAndDrawer', false)
   }
-  // created () {
-  //   this.drawer = false
-  //   this.appBar = false
-  //   this.$store.commit('AppLayout/updateAppBarAndDrawer', false)
-  // },
   // mounted () {
   //   const that = this
+  //   console.log('mounted :', this.$route.params.quizId)
   //   this.startExam(that.$route.params.quizId, 'onlineQuiz.mbtiBartle')
-  //     .then(() => {
+  //     .then((res) => {
+  //       console.log('res :', res)
   //       that.$store.commit('AppLayout/updateOverlay', { show: false, loading: false, text: '' })
   //       const unansweredQuestion = that.getUnansweredQuestionBehind()
   //       if (unansweredQuestion) {
@@ -259,14 +191,15 @@ export default {
   //       }
   //     })
   //     .catch((error) => {
-  //       Assistant.reportErrors(error)
-  //       that.$notify({
-  //         group: 'notifs',
-  //         title: 'توجه!',
-  //         text: 'مشکلی در دریافت اطلاعات آژمون رخ داده است. لطفا دوباره امتحان کنید.',
-  //         type: 'error'
-  //       })
-  //       that.$router.push({ name: 'user.exam.list' })
+  //       // Assistant.reportErrors(error)
+  //       // that.$notify({
+  //       //   group: 'notifs',
+  //       //   title: 'توجه!',
+  //       //   text: 'مشکلی در دریافت اطلاعات آژمون رخ داده است. لطفا دوباره امتحان کنید.',
+  //       //   type: 'error'
+  //       // })
+  //       console.log('e :', error)
+  //       // that.$router.push({ name: 'user.exam.list' })
   //     })
   // },
   // methods: {
@@ -350,17 +283,19 @@ export default {
   //       return null
   //     }
   //   },
+  //   // eslint-disable-next-line camelcase
   //   setCurrentQuestionChoice (choice_id, active) {
   //     const that = this
   //     if (typeof active === 'undefined') {
   //       active = true
   //     }
   //     this.currentQuestion.choices.list.forEach((item, index) => {
+  //       // eslint-disable-next-line camelcase
   //       if (choice_id !== null && choice_id.toString() === that.currentQuestion.choices.list[index].id.toString()) {
-  //         Vue.set(that.currentQuestion.choices.list[index], 'active', active)
+  //         // Vue.set(that.currentQuestion.choices.list[index], 'active', active)
   //         that.choiceKey = Date.now()
   //       } else {
-  //         Vue.set(that.currentQuestion.choices.list[index], 'active', false)
+  //         // Vue.set(that.currentQuestion.choices.list[index], 'active', false)
   //         that.choiceKey = Date.now()
   //       }
   //     })

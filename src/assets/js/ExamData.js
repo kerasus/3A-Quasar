@@ -187,6 +187,7 @@ class ExamData {
   }
 
   getExamDataAndParticipate (examId) {
+    console.log('getExamDataAndParticipate examId:', examId)
     const that = this
     this.commands.push(() => new Promise((resolve, reject) => {
       if (!examId && !that.exam) {
@@ -196,9 +197,11 @@ class ExamData {
       if (!examId) {
         examId = that.exam.id
       }
-      axios.post(API_ADDRESS.exam.examUser, { examId })
+      console.log('go for request')
+      axios.post(API_ADDRESS.exam.examUser, { exam_id: examId })
         .then(response => {
           that.exam = new Exam()
+          console.log('response in getExamDataAndParticipate', response)
           // ToDo: attention on user_exam_id and exam_id
           that.exam.id = Assistant.getId(response.data.data.exam_id)
           that.exam.title = Assistant.getId(response.data.data.exam_title)
@@ -212,6 +215,7 @@ class ExamData {
           resolve(response)
         })
         .catch(error => {
+          console.log('err in getExamDataAndParticipate: ', error)
           reject(error)
         })
     })

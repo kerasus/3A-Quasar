@@ -209,6 +209,7 @@ const mixinQuiz = {
     },
 
     startExam (examId, viewType) {
+      console.log('startExam in quiz :', examId, 'viewType :', viewType)
       if (!Assistant.getId(examId)) {
         return
       }
@@ -216,6 +217,7 @@ const mixinQuiz = {
       return new Promise(function (resolve, reject) {
         let userExamId
         const examData = new ExamData()
+        console.log('that.needToLoadQuizData() :', that.needToLoadQuizData())
         if (that.needToLoadQuizData()) {
           window.currentExamQuestions = null
           window.currentExamQuestionIndexes = null

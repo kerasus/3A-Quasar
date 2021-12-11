@@ -17,6 +17,7 @@ export function updateColumnsWidth (state, newInfo) {
   state.ColumnsWidth = newInfo
 }
 export function updateAppBarAndDrawer (state, newInfo) {
+  console.log('ho')
   this.commit('AppLayout/updateAppBar', newInfo)
   this.commit('AppLayout/updateDrawer', newInfo)
 }
