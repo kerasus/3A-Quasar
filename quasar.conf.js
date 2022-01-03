@@ -8,7 +8,7 @@
 
 /* eslint-env node */
 const ESLintPlugin = require('eslint-webpack-plugin')
-const { configure } = require('quasar/wrappers')
+const {configure} = require('quasar/wrappers')
 
 module.exports = configure(function (ctx) {
   return {
@@ -74,12 +74,12 @@ module.exports = configure(function (ctx) {
 
       // https://v2.quasar.dev/quasar-cli/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpack (chain) {
+      chainWebpack(chain) {
         const hashh = '[id].[name].[chunkhash]'
         chain.output.filename('js/[name]/' + hashh + '.bundle.js')
         chain.output.chunkFilename('js/[name]/' + hashh + '.chunk.js')
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
+          .use(ESLintPlugin, [{extensions: ['js', 'vue']}])
       }
     },
 
@@ -153,9 +153,9 @@ module.exports = configure(function (ctx) {
       maxAge: 1000 * 60 * 60 * 24 * 30,
       // Tell browser when a file from the server should expire from cache (in ms)
 
-      chainWebpackWebserver (chain) {
+      chainWebpackWebserver(chain) {
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js'] }])
+          .use(ESLintPlugin, [{extensions: ['js']}])
       },
 
       middlewares: [
@@ -171,18 +171,16 @@ module.exports = configure(function (ctx) {
 
       // for the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
       // if using workbox in InjectManifest mode
-      chainWebpackCustomSW (chain) {
+      chainWebpackCustomSW(chain) {
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js'] }])
+          .use(ESLintPlugin, [{extensions: ['js']}])
       },
 
       manifest: {
-        name: '3A-Quasar',
-        short_name: '3A-Quasar',
-        description: '3A with Quasar framework',
+        name: 'آزمون آنلاین آلاء',
+        short_name: 'سه آ',
+        background_color: '#FFFFFF',
         display: 'standalone',
-        orientation: 'portrait',
-        background_color: '#f1f1f1',
         theme_color: '#ffc107',
         icons: [
           {
@@ -248,15 +246,15 @@ module.exports = configure(function (ctx) {
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpackMain (chain) {
+      chainWebpackMain(chain) {
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js'] }])
+          .use(ESLintPlugin, [{extensions: ['js']}])
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpackPreload (chain) {
+      chainWebpackPreload(chain) {
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js'] }])
+          .use(ESLintPlugin, [{extensions: ['js']}])
       }
     }
   }
