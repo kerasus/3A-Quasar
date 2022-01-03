@@ -1,71 +1,81 @@
 <template>
-  <v-container fluid>
-    <v-row class="d-flex justify-center">
-      <v-col>
+  <div>
+<!--    <v-row class="d-flex justify-center">-->
+    <div class="row wrap justify-center">
+      <div class="col">
         <info/>
-      </v-col>
-    </v-row>
-    <v-row class="d-flex justify-center">
-      <v-col>
-        <v-card
-            elevation="0"
-            class="infoCard align-content-center"
+      </div>
+    </div>
+    <div class="row wrap justify-center">
+      <div class="col">
+        <q-card
+            flat
+            class="flex infoCard content-center"
         >
-          <v-row style="height: 50% ;margin: inherit;">
-            <v-col
-                xl="3"
-                sm="6"
-                cols="12"
-                class="exam-title"
+          <div
+            class="row"
+            style="height: 50% ;margin: inherit;"
+          >
+            <div
+              class="col col-12 col-xl-3 col-sm-6 exam-title"
             >
               نتیجه
               {{ quiz.title }}
               سه آ
-            </v-col>
-            <v-col
+            </div>
+            <div
                 v-if="report"
-                xl="1"
-                sm="3"
-                cols="6"
+                class="col col-6 col-xl-1 col-sm-3"
             >
               شهر:
               {{ report.location.city }}
-            </v-col>
-            <v-col
+            </div>
+            <div
                 v-if="report"
-                xl="1"
-                sm="3"
-                cols="6"
+                class="col col-6 col-xl-1 col-sm-3"
             >
               استان:
               {{ report.location.province }}
-            </v-col>
-            <v-col
-                xl="7"
-                cols="12"
+            </div>
+            <div
+                class="col col-12 col-xl-7"
                 :style="{ padding: '0 12px' }"
             >
-              <v-tabs
-                  v-model="tab"
-                  color="#ffc107"
-                  center-active
-                  show-arrows
+              <q-tabs
+                v-model="tab"
+                dense
+                active-color="primary"
+                indicator-color="primary"
+                align="justify"
               >
-                <v-tabs-slider color="yellow"/>
-                <v-tab>کارنامه</v-tab>
-                <v-tab>تخمین رتبه</v-tab>
-                <v-tab>ریزدرس ها</v-tab>
-                <v-tab>پاسخبرگ کلیدی</v-tab>
-                <v-tab>پاسخ نامه تشریحی</v-tab>
-                <v-tab>تحلیل ویدیویی</v-tab>
-              </v-tabs>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row class="d-flex justify-center">
-      <v-col>
+                <q-tab name="result" label="کارنامه"></q-tab>
+                <q-tab name="rank" label="تخمین رتبه"></q-tab>
+                <q-tab name="lessons" label="ریزدرس ها"></q-tab>
+                <q-tab name="KeyAnswers" label="پاسخبرگ کلیدی"></q-tab>
+                <q-tab name="descriptiveAnswers" label="پاسخ نامه تشریحی"></q-tab>
+                <q-tab name="videos" label="تحلیل ویدیویی"></q-tab>
+              </q-tabs>
+<!--              <v-tabs-->
+<!--                  v-model="tab"-->
+<!--                  color="#ffc107"-->
+<!--                  center-active-->
+<!--                  show-arrows-->
+<!--              >-->
+<!--                <v-tabs-slider color="yellow"/>-->
+<!--                <v-tab>کارنامه</v-tab>-->
+<!--                <v-tab>تخمین رتبه</v-tab>-->
+<!--                <v-tab>ریزدرس ها</v-tab>-->
+<!--                <v-tab>پاسخبرگ کلیدی</v-tab>-->
+<!--                <v-tab>پاسخ نامه تشریحی</v-tab>-->
+<!--                <v-tab>تحلیل ویدیویی</v-tab>-->
+<!--              </v-tabs>-->
+            </div>
+          </div>
+        </q-card>
+      </div>
+    </div>
+    <div class="row wrap justify-center">
+      <div class="col">
         <v-tabs-items v-model="tab">
           <v-tab-item>
             <PersonalResult :report="report"/>
@@ -88,12 +98,14 @@
                 دانلود پاسخنامه تشریحی
               </p>
               <div v-if="report">
-                <v-row
+                <div
                     v-for="(item, index) in report.exams_booklet"
                     :key="index"
-                    class="download-row"
+                    class="row download-row"
                 >
-                  <v-col md="6">
+                  <div
+                    class="col col-md-6"
+                  >
                     <div
                         v-if="item.descriptive_answers_url"
                         class="download-box"
@@ -117,8 +129,10 @@
                         </v-icon>
                       </v-btn>
                     </div>
-                  </v-col>
-                  <v-col md="6">
+                  </div>
+                  <div
+                    class="col col-md-6"
+                  >
                     <div
                         v-if="item.questions_url"
                         class="download-box"
@@ -140,8 +154,8 @@
                         </v-icon>
                       </v-btn>
                     </div>
-                  </v-col>
-                </v-row>
+                  </div>
+                </div>
               </div>
             </v-card>
           </v-tab-item>
@@ -184,12 +198,18 @@
                 </v-alert>
                 <!--                                <p v-if="!currentVideo" class="coming-soon" :style="{ 'margin-top': '50px'}">منتشر نشده</p>-->
                 <!--                                <p v-if="currentVideo" class="video-title">{{ currentVideo.title }}</p>-->
-                <v-row v-if="currentVideo">
-                  <v-col>
-                    <v-row no-gutters>
-                      <v-col
-                          md="3"
-                          class="vjs-playlist"
+                <div
+                  class="row"
+                  v-if="currentVideo"
+                >
+                  <div
+                    class="col"
+                  >
+                    <div
+                      class="row q-gutter-none"
+                    >
+                      <div
+                          class="col col-md-3 vjs-playlist"
                           :style="{ height: timepointsHeights+'px'}"
                       >
                         <v-card
@@ -218,18 +238,25 @@
                             </v-list-item-group>
                           </v-list>
                         </v-card>
-                      </v-col>
-                      <v-col md="9">
+                      </div>
+                      <div
+                        class="col col-md-9"
+                      >
                         <video
                             :ref="'videoPlayer'+index"
                             class="video-js vjs-default-skin vjs-16-9 vjs-fluid"
                         />
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                </v-row>
-                <v-row v-if="currentVideo">
-                  <v-col>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="row"
+                  v-if="currentVideo"
+                >
+                  <div
+                    class="col"
+                  >
                     <div
                         class="d-flex flex-row justify-center"
                         dir="ltr"
@@ -245,8 +272,8 @@
                         {{ alaaVideoIndex + 1 }}
                       </v-btn>
                     </div>
-                  </v-col>
-                </v-row>
+                  </div>
+                </div>
 
                 <!--                                <video v-if="currentVideo"-->
                 <!--                                       :src="currentVideo.file.video[1].link"-->
@@ -261,9 +288,9 @@
             </v-tabs>
           </v-tab-item>
         </v-tabs-items>
-      </v-col>
-    </v-row>
-  </v-container>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -272,11 +299,9 @@
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import '@silvermine/videojs-quality-selector/dist/css/quality-selector.css'
-// The following registers the plugin with `videojs`
-require('@silvermine/videojs-quality-selector')(videojs)
 import Info from 'src/components/OnlineQuiz/Quiz/resultTables/info'
 import PersonalResult from 'src/components/OnlineQuiz/Quiz/resultTables/personalResult'
-import BubbleSheet from 'src/components/OnlineQuiz/Quiz/bubbleSheet/BubbleSheet'
+import BubbleSheet from 'src/components/OnlineQuiz/Quiz/bubbleSheet/bubbleSheet'
 import Assistant from 'src/plugins/assistant'
 import { AlaaSet } from 'src/models/AlaaSet'
 import { mixinAuth, mixinQuiz, mixinWindowSize } from 'src/mixin/Mixins'
@@ -284,6 +309,8 @@ import { AlaaContent } from 'src/models/AlaaContent'
 import StatisticResult from 'src/components/OnlineQuiz/Quiz/resultTables/statisticResult'
 import TakhminRotbe from 'src/components/OnlineQuiz/Quiz/TakhminRotbe'
 import ExamData from 'src/assets/js/ExamData'
+// The following registers the plugin with `videojs`
+require('@silvermine/videojs-quality-selector')(videojs)
 
 export default {
   name: 'Result',
@@ -317,51 +344,58 @@ export default {
     }
   },
   created () {
+    console.log('coooooome oooooooooooooonnnnnnnnnnnn')
     this.getUserData()
     window.currentExamQuestions = null
     window.currentExamQuestionIndexes = null
+    this.getExamData() // moved from mounted to created after migration
   },
   mounted () {
-    const that = this
-    const user_exam_id = this.$route.params.user_exam_id
-    const exam_id = this.$route.params.exam_id
-
-    this.$store.commit('AppLayout/updateOverlay', { show: true, loading: true, text: '' })
-
-    const examData = new ExamData()
-    examData.getUserExamWithCorrectAnswers(user_exam_id, exam_id)
-      .loadQuestionsFromFile()
-      .getUserExamData(user_exam_id)
-      .getUserExamDataReport(user_exam_id)
-      .run()
-      .then(() => {
-        // save questions in localStorage
-        that.saveCurrentExamQuestions(examData.exam.questions.list)
-        // save exam info in vuex store (remove questions of exam then save in store)
-        that.$store.commit('updateQuiz', examData.exam)
-        that.$store.commit('mergeDbAnswersIntoLocalstorage', {
-          dbAnswers: examData.userExamData,
-          exam_id: examData.exam.id
-        })
-        that.report = examData.studentReport
-        that.loadKarname(examData.studentReport)
-
-        that.$store.commit('AppLayout/updateOverlay', { show: false, loading: false, text: '' })
-      })
-      .catch((error) => {
-        that.$store.commit('AppLayout/updateOverlay', { show: false, loading: false, text: '' })
-        that.goToExamList()
-        console.log(error)
-
-        that.$notify({
-          group: 'notifs',
-          title: 'توجه!',
-          text: 'مشکلی در دریافت اطلاعات کارنامه رخ داده است.',
-          type: 'error'
-        })
-      })
+    // this.getExamData() ----------- was used here before migration
   },
   methods: {
+    getExamData () {
+      // TODO : refactor NEEDED , used in created which probably not the best place to use
+      const that = this
+      const user_exam_id = this.$route.params.user_exam_id
+      const exam_id = this.$route.params.exam_id
+
+      this.$store.commit('AppLayout/updateOverlay', { show: true, loading: true, text: '' })
+
+      const examData = new ExamData()
+      console.log('examData---------', examData)
+      examData.getUserExamWithCorrectAnswers(user_exam_id, exam_id)
+        .loadQuestionsFromFile()
+        .getUserExamData(user_exam_id)
+        .getUserExamDataReport(user_exam_id)
+        .run()
+        .then(() => {
+          // save questions in localStorage
+          that.saveCurrentExamQuestions(examData.exam.questions.list)
+          // save exam info in vuex store (remove questions of exam then save in store)
+          that.$store.commit('updateQuiz', examData.exam)
+          that.$store.commit('mergeDbAnswersIntoLocalstorage', {
+            dbAnswers: examData.userExamData,
+            exam_id: examData.exam.id
+          })
+          that.report = examData.studentReport
+          that.loadKarname(examData.studentReport)
+
+          that.$store.commit('AppLayout/updateOverlay', { show: false, loading: false, text: '' })
+        })
+        .catch((error) => {
+          that.$store.commit('AppLayout/updateOverlay', { show: false, loading: false, text: '' })
+          that.goToExamList()
+          console.log(error)
+
+          that.$notify({
+            group: 'notifs',
+            title: 'توجه!',
+            text: 'مشکلی در دریافت اطلاعات کارنامه رخ داده است.',
+            type: 'error'
+          })
+        })
+    },
     initVideoJs (srcs, sub_categoryIndex) {
       if (!this.$refs['videoPlayer' + sub_categoryIndex]) {
         return

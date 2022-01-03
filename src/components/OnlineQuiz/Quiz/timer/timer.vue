@@ -1,12 +1,14 @@
 <template>
 <div>
   <mobile-timer
-    v-if="windowSize.x < 960"
+    class="Mobiletimer"
+    v-if="windowSize.x < 1024"
     :passed-time="passedTime"
     :remaining-time="remainTime"
     :current-cat="currentCat"
   />
   <pc-timer
+    class="Pctimer"
     v-else
     :passed-time="passedTime"
     :remaining-time="remainTime"
@@ -17,14 +19,16 @@
 </template>
 
 <script>
-import pcTimer from 'components/OnlineQuiz/Quiz/timer/pcTimer'
+import pcTimer from 'src/components/OnlineQuiz/Quiz/timer/pcTimer'
+import mobileTimer from 'src/components/OnlineQuiz/Quiz/timer/mobileTimer'
 import { mixinWindowSize, mixinQuiz } from 'src/mixin/Mixins'
 import Time from 'src/plugins/time'
 import Assistant from 'src/plugins/assistant'
 export default {
   name: 'timer',
   components: {
-    pcTimer
+    pcTimer,
+    mobileTimer
   },
   mixins: [mixinWindowSize, mixinQuiz],
   data: () => ({
@@ -33,6 +37,9 @@ export default {
     passedTime: '00:00:00',
     remainTime: false
   }),
+  created () {
+    this.updateWindowSize()
+  },
   mounted () {
     const that = this
     this.interval = setInterval(() => {
@@ -63,12 +70,10 @@ export default {
     doActionsOnChangeCategory (newCat) {
       if (!newCat || !this.currentCat || Assistant.getId(newCat.id) !== Assistant.getId(this.currentCat.id)) {
         this.currentCat = newCat
-        // this.$store.commit('setActiveStateOfExamCategories', !this.considerActiveCategoryAndSubcategory)
         this.$store.commit('quiz/setActiveStateOfExamCategories')
         if (this.currentCat) {
           this.goToCategory(this.currentCat.id)
           Time.setStateOfQuestionsBasedOnActiveCategory(this.quiz, this.getCurrentExamQuestions())
-          // this.$store.commit('setActiveStateOfQuestionsBasedOnActiveCategory')
         }
         this.setExamAcceptAtIsPassedWhenAllCategoryIsPassed()
       }
@@ -76,7 +81,7 @@ export default {
     setExamAcceptAtIsPassedWhenAllCategoryIsPassed () {
       const newCat = Time.getCurrentCategoryAcceptAt(this.quiz.categories)
       if (!newCat && this.quiz.categories.length > 0) {
-        this.$store.commit('setExamAcceptAtIsPassed')
+        this.$store.commit('quiz/setExamAcceptAtIsPassed')
       }
     }
   }
@@ -84,10 +89,14 @@ export default {
 </script>
 
 <style scoped>
-.wrapper {
-  margin-bottom: 0px;
-  padding-bottom: 0;
-  width: 100%;
+.Pctimer {
+  position: sticky;
+  position: -webkit-sticky;
+  bottom: 0px;
+}
+.Mobiletimer {
+  position: static;
   bottom: 0;
+  min-width: 100%;
 }
 </style>

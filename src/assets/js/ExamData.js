@@ -35,7 +35,7 @@ class ShuffleQuestions {
   }
 
   shuffle (array) {
-    let currentIndex = array.length, randomIndex
+    let currentIndex = array.length; let randomIndex
 
     // While there remain elements to shuffle...
     while (currentIndex !== 0) {
@@ -79,6 +79,7 @@ class ExamData {
     this.commands.push(() => new Promise((resolve, reject) => {
       if (!that.questionsFileUrl && !that.exam) {
         Assistant.handleAxiosError('questionsFileUrl in loadQuestionsFromFile() is not set')
+        // eslint-disable-next-line prefer-promise-reject-errors
         reject('questionsFileUrl in loadQuestionsFromFile() is not set')
       }
       if (!that.questionsFileUrl) {
@@ -99,6 +100,7 @@ class ExamData {
           resolve(response.data)
         })
         .catch(error => {
+          console.log('error', error)
           reject(error)
         })
     })
@@ -112,6 +114,7 @@ class ExamData {
     this.commands.push(() => new Promise((resolve, reject) => {
       if (!userExamId && !that.exam) {
         Assistant.handleAxiosError('userExamId in getUserExamWithCorrectAnswers() is not set')
+        // eslint-disable-next-line prefer-promise-reject-errors
         reject('userExamId in getUserExamWithCorrectAnswers() is not set')
       }
       if (!userExamId) {
@@ -142,6 +145,7 @@ class ExamData {
     this.commands.push(() => new Promise((resolve, reject) => {
       if (!userExamId && !that.exam) {
         Assistant.handleAxiosError('userExamId in getUserExamDataReport() is not set')
+        // eslint-disable-next-line prefer-promise-reject-errors
         reject('userExamId in getUserExamDataReport() is not set')
       }
       if (!userExamId) {
@@ -165,6 +169,7 @@ class ExamData {
     this.commands.push(() => new Promise((resolve, reject) => {
       if (!userExamId && !that.exam) {
         Assistant.handleAxiosError('userExamId in getUserExamData() is not set')
+        // eslint-disable-next-line prefer-promise-reject-errors
         reject('userExamId in getUserExamData() is not set')
       }
       if (!userExamId) {
@@ -176,6 +181,7 @@ class ExamData {
           resolve(response)
         })
         .catch(error => {
+          console.log(error)
           reject(error)
         })
     })
@@ -187,13 +193,14 @@ class ExamData {
     const that = this
     this.commands.push(() => new Promise((resolve, reject) => {
       if (!examId && !that.exam) {
-        Assistant.handleAxiosError('examId in getExamDataAndParticipate() is not set')
-        reject('examId in getExamDataAndParticipate() is not set')
+        Assistant.handleAxiosError('exam_id in getExamDataAndParticipate() is not set')
+        // eslint-disable-next-line prefer-promise-reject-errors
+        reject('exam_id in getExamDataAndParticipate() is not set')
       }
       if (!examId) {
         examId = that.exam.id
       }
-      axios.post(API_ADDRESS.exam.examUser, { examId })
+      axios.post(API_ADDRESS.exam.examUser, { exam_id: examId })
         .then(response => {
           that.exam = new Exam()
           // ToDo: attention on user_exam_id and exam_id
@@ -209,6 +216,7 @@ class ExamData {
           resolve(response)
         })
         .catch(error => {
+          console.log('err', error)
           reject(error)
         })
     })

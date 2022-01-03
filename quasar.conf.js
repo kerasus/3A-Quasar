@@ -8,7 +8,8 @@
 
 /* eslint-env node */
 const ESLintPlugin = require('eslint-webpack-plugin')
-const {configure} = require('quasar/wrappers')
+const { configure } = require('quasar/wrappers')
+const path = require('path')
 
 module.exports = configure(function (ctx) {
   return {
@@ -29,7 +30,8 @@ module.exports = configure(function (ctx) {
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
-      'app.scss'
+      'app.scss',
+      'flatIcon.css'
       // 'src/assets/scss/app.scss',
       // 'src/assets/scss/font.scss'
     ],
@@ -79,7 +81,21 @@ module.exports = configure(function (ctx) {
         chain.output.filename('js/[name]/' + hashh + '.bundle.js')
         chain.output.chunkFilename('js/[name]/' + hashh + '.chunk.js')
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{extensions: ['js', 'vue']}])
+          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
+        chain.module.rule('fonts')
+          .use('url-loader')
+          .tap((options) => {
+            options.name = 'fonts/[path][name].[ext]'
+            return options
+          })
+      },
+      extendWebpack (cfg, { isServer, isClient }) {
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias, // This adds the existing alias
+
+          // This will make sure that the hosting test app is pointing to only one instance of vue.
+          vue: path.resolve('./node_modules/vue')
+        }
       }
     },
 
@@ -132,7 +148,8 @@ module.exports = configure(function (ctx) {
       // Quasar plugins
       plugins: [
         'Notify',
-        'Loading'
+        'Loading',
+        'Dialog'
       ]
     },
 
