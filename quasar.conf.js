@@ -9,6 +9,7 @@
 /* eslint-env node */
 const ESLintPlugin = require('eslint-webpack-plugin')
 const { configure } = require('quasar/wrappers')
+const path = require('path')
 
 module.exports = configure(function (ctx) {
   return {
@@ -87,6 +88,14 @@ module.exports = configure(function (ctx) {
             options.name = 'fonts/[path][name].[ext]'
             return options
           })
+      },
+      extendWebpack (cfg, { isServer, isClient }) {
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias, // This adds the existing alias
+
+          // This will make sure that the hosting test app is pointing to only one instance of vue.
+          vue: path.resolve('./node_modules/vue')
+        }
       }
     },
 
@@ -185,13 +194,13 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: '3A-Quasar',
-        short_name: '3A-Quasar',
-        description: '3A with Quasar framework',
+        name: 'آزمون آنلاین آلاء',
+        short_name: 'سه آ',
+        background_color: '#FFFFFF',
+        theme_color: '#ffc107',
+        description: 'آزمون آنلاین آلاء',
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#f1f1f1',
-        theme_color: '#ffc107',
         icons: [
           {
             src: 'icons/icon-128x128.png',
