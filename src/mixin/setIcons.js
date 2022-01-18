@@ -9,7 +9,7 @@ const mixinSetIcons = {
           const name = iconName.substring(5)
           console.log(name)
           return {
-            cls: 'isax ' + name
+            cls: 'isax isax-' + name
           }
         }
       }
