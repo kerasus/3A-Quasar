@@ -7,7 +7,6 @@ const mixinSetIcons = {
       $q.iconMapFn = (iconName) => {
         if (iconName.startsWith('isax:') === true) {
           const name = iconName.substring(5)
-          console.log(name)
           return {
             cls: 'isax isax-' + name
           }
